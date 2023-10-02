@@ -1,0 +1,29 @@
+version: v2beta1
+name: google-cloud-sdk
+
+pipelines:
+  deploy:
+    run: |-
+      run_dependencies --all
+      create_deployments --all
+
+deployments:
+  app:
+    helm:
+      releaseName: google-cloud-sdk
+      upgradeArgs:
+        - --set
+        - useReleaseName=true
+      chart:
+        name: component-chart
+        repo: https://charts.devspace.sh
+      values:
+        containers:
+          - name: google-cloud-sdk
+            image: google/cloud-sdk:368.0.0
+            command: 
+              - /bin/bash -c
+              - "gcloud beta emulators bigtable start --quiet --project=local-development --host-port 0.0.0.0:${PORT}"
+        service:
+          ports:
+            - port: ${PORT}
