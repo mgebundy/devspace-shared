@@ -21,9 +21,16 @@ deployments:
         containers:
           - name: google-cloud-sdk
             image: google/cloud-sdk:368.0.0
-            command: 
-              - /bin/bash -c
-              - "gcloud beta emulators bigtable start --quiet --project=local-development --host-port 0.0.0.0:${PORT}"
+            command:
+              - gcloud
+              - beta
+              - emulators
+              - bigtable
+              - start
+              - --quiet
+              - --project=local-development
+              - --host-port
+              - 0.0.0.0:9035
         service:
           ports:
-            - port: ${PORT}
+            - port: 9035
