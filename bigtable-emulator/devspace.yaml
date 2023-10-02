@@ -1,5 +1,5 @@
 version: v2beta1
-name: google-cloud-sdk
+name: bigtable-emulator
 
 pipelines:
   deploy:
@@ -10,7 +10,7 @@ pipelines:
 deployments:
   app:
     helm:
-      releaseName: google-cloud-sdk
+      releaseName: bigtable-emulator
       upgradeArgs:
         - --set
         - useReleaseName=true
@@ -19,7 +19,7 @@ deployments:
         repo: https://charts.devspace.sh
       values:
         containers:
-          - name: google-cloud-sdk
+          - name: bigtable-emulator
             image: google/cloud-sdk:368.0.0
             command:
               - gcloud
