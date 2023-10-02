@@ -1,0 +1,8 @@
+version: v2beta1
+name: gcp-pubsub-emulator
+
+vars:
+  PORT: 8185
+  GCP_GROUP: "pubsub"
+imports: 
+  - path: ../gcp-emulator

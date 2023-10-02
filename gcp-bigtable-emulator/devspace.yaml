@@ -1,0 +1,8 @@
+version: v2beta1
+name: gcp-bigtable-emulator
+
+vars:
+  PORT: 9035
+  GCP_GROUP: "bigtable"
+imports: 
+  - path: ../gcp-emulator

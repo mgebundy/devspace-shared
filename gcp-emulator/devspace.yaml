@@ -1,5 +1,12 @@
 version: v2beta1
-name: bigtable-emulator
+name: gcp-emulator
+
+vars:
+  PORT: 0
+  GCP_GROUP:
+    options:
+      - pubsub
+      - bigtable
 
 pipelines:
   deploy:
@@ -10,27 +17,24 @@ pipelines:
 deployments:
   app:
     helm:
-      releaseName: bigtable-emulator
-      upgradeArgs:
-        - --set
-        - useReleaseName=true
+      releaseName: gcp-${GCP_GROUP}-emulator
       chart:
         name: component-chart
         repo: https://charts.devspace.sh
       values:
         containers:
-          - name: bigtable-emulator
+          - name: gcp-${GCP_GROUP}-emulator
             image: google/cloud-sdk:368.0.0
             command:
               - gcloud
               - beta
               - emulators
-              - bigtable
+              - ${GCP_GROUP}
               - start
               - --quiet
               - --project=local-development
               - --host-port
-              - 0.0.0.0:9035
+              - 0.0.0.0:${PORT}
         service:
           ports:
-            - port: 9035
+            - port: ${PORT}
