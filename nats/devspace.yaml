@@ -1,0 +1,43 @@
+version: v2beta1
+name: nats
+
+vars:
+  PORT: 6379
+
+pipelines:
+  deploy:
+    run: |-
+      run_dependencies --all
+      create_deployments --all
+
+deployments:
+  app:
+    kubectl:
+      manifests:
+        - ./configmap-nats.conf.yaml
+    helm:
+      releaseName: nats
+      chart:
+        name: component-chart
+        repo: https://charts.devspace.sh
+      values:
+        containers:
+          - name: nats
+            image: nats
+            volumeMounts:
+              - containerPath: /nats.conf
+                volume:
+                  name: nats-config
+                  subPath: nats.conf
+                  readOnly: true
+            command:
+              - --appendonly
+              - "yes"
+        service:
+          ports:
+            - port: ${PORT}
+        volumes:
+          - name: nats-config
+            configMap:
+              name: nats-config
+              

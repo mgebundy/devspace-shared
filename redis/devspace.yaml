@@ -1,0 +1,37 @@
+version: v2beta1
+name: redis
+
+vars:
+  PORT: 6379
+  SIZE: 1Gi
+
+pipelines:
+  deploy:
+    run: |-
+      run_dependencies --all
+      create_deployments --all
+
+deployments:
+  app:
+    helm:
+      releaseName: redis
+      chart:
+        name: component-chart
+        repo: https://charts.devspace.sh
+      values:
+        containers:
+          - name: redis
+            image: redis
+            volumeMounts:
+            - containerPath: /data
+              volume:
+                name: redis-data
+            command:
+              - --appendonly
+              - "yes"
+        service:
+          ports:
+            - port: ${PORT}
+        volumes:
+          - name: redis-data
+            size: ${SIZE}
