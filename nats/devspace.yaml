@@ -11,10 +11,11 @@ pipelines:
       create_deployments --all
 
 deployments:
-  app:
+  nats-configmap:
     kubectl:
       manifests:
         - ./configmap-nats.conf.yaml
+  app:
     helm:
       releaseName: nats
       chart:
