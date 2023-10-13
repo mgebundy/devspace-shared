@@ -1,9 +1,6 @@
 version: v2beta1
 name: nats
 
-vars:
-  PORT: 6379
-
 pipelines:
   deploy:
     run: |-
@@ -36,7 +33,10 @@ deployments:
               - "yes"
         service:
           ports:
-            - port: ${PORT}
+            - name: client
+              port: 4222
+            - name: monitor
+              port: 8222
         volumes:
           - name: nats-config
             configMap:
