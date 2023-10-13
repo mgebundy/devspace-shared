@@ -29,6 +29,7 @@ deployments:
                   subPath: nats.conf
                   readOnly: true
             command:
+              - nats
               - --appendonly
               - "yes"
         service:
