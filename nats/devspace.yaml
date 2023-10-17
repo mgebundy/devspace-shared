@@ -29,9 +29,9 @@ deployments:
                   subPath: nats.conf
                   readOnly: true
             command:
-              - nats
-              - --appendonly
-              - "yes"
+              - /nats-server
+              - -c
+              - /nats.conf
         service:
           ports:
             - name: client
