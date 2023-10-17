@@ -27,6 +27,7 @@ deployments:
               volume:
                 name: redis-data
             command:
+              - redis-server
               - --appendonly
               - "yes"
         service:
